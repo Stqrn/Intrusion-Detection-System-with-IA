@@ -34,3 +34,7 @@ def save_model(model, path="outputs/models/decision_tree_model.pkl"):
     """Save the trained model to disk"""
     joblib.dump(model, path)
     print(f"📦 Model saved to {path}")
+
+def load_model(path="outputs/models/random_forest_model.pkl"):
+    """Load a trained model from file."""
+    return joblib.load(path)
