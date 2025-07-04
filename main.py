@@ -1,41 +1,39 @@
-import pandas as pd
-from src.preprocessing import preprocess_data
-from src.model import train_random_forest, evaluate_model, save_model
-from src.visuals import (
-    plot_confusion_matrix,
-    plot_classification_report,
-    plot_class_distribution,
-)
+import os
+
+def run_command(command):
+    print(f"\n➡️ Running: {command}")
+    os.system(command)
 
 def main():
-    print("📥 Loading dataset...")
-    # CSV has no header → set header=None
-    df = pd.read_csv("data/KDDTrain+.csv", header=None)
+    while True:
+        print("\n📊 Intrusion Detection System - Main Menu")
+        print("1. 🔧 Train Random Forest model")
+        print("2. 🔍 Interactive Prediction (Manual/CSV)")
+        print("3. 📈 Show Evaluation Visuals")
+        print("4. 🤖 Compare Multiple Models")
+        print("5. 🛡️ Run Smart Firewall")
+        print("6. 📊 Launch Dashboard")
+        print("7. 🚪 Exit")
 
-    print("⚙️ Preprocessing data...")
-    X, y, _ = preprocess_data(df)
+        choice = input("Enter your choice (1-7): ")
 
-    print("✂️ Splitting data...")
-    from sklearn.model_selection import train_test_split
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42
-    )
-
-    print("🌳 Training Random Forest model...")
-    model = train_random_forest(X_train, y_train)
-
-    print("📊 Evaluating model...")
-    evaluate_model(model, X_test, y_test)
-
-    print("📈 Saving visual reports...")
-    plot_confusion_matrix(y_test, model.predict(X_test))
-    plot_classification_report(y_test, model.predict(X_test))
-    plot_class_distribution(pd.concat([y_train, y_test]))
-
-    print("💾 Saving model...")
-    save_model(model, path="outputs/models/random_forest_model.pkl")
-
-    print("✅ Done! Visual reports saved in: outputs/figures/")
+        if choice == "1":
+            run_command("python main.py")
+        elif choice == "2":
+            run_command("python -m src.predict_interactive")
+        elif choice == "3":
+            print("📁 Check outputs/figures/ for graphs.")
+        elif choice == "4":
+            run_command("python train_multiple_models.py")
+        elif choice == "5":
+            run_command("sudo python -m src.smart_firewall")
+        elif choice == "6":
+            run_command("streamlit run dashboard.py")
+        elif choice == "7":
+            print("👋 Exiting. Goodbye!")
+            break
+        else:
+            print("❌ Invalid choice. Try again.")
 
 if __name__ == "__main__":
     main()
